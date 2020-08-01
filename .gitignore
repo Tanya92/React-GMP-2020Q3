@@ -1,0 +1,8 @@
+/node_modules
+/dist
+.vscode
+*.log
+.cache
+.eslintcache
+package-lock.json
+yarn.lock
