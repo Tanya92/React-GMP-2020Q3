@@ -1,0 +1,73 @@
+@blockName: movie-card;
+
+.@{blockName} {
+  width: 90%;
+  min-width: 250px;
+  margin-bottom: 50px;
+
+  &-image-container {
+    width: 100%;
+    height: 500px;
+    position: relative;
+  }
+
+  &-image {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &-menu-button {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    background-color: #555;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    opacity: 0;
+  }
+
+  &-menu-button:hover {
+    opacity: 1;
+  }
+
+  &-info {
+    display: grid;
+    margin: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    justify-content: space-between;
+    align-content: center;
+    line-height: 30px;
+    color: #fff;
+    border-bottom: 1px solid #555;
+
+    &__title {
+      font-size: 18px;
+    }
+
+    &__release-date {
+      margin: 0 auto;
+      margin-right: 0;
+      justify-items: center;
+      border: 1px solid #555;
+      border-radius: 10px;
+      text-align: center;
+      vertical-align: middle;
+      width: 80px;
+      height: 30px;
+    }
+
+    &__genre {
+      grid-column-start: 1;
+      grid-column-end: 3;
+      font-size: 18px;
+      font-weight: lighter;
+    }
+  }
+}

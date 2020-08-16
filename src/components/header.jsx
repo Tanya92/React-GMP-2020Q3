@@ -1,11 +1,20 @@
 import React from "react";
 
-const Header = ({ info }) => {
+import Button from './button';
+import Title from './title';
+import SearchForm from "./search-form";
+
+import '../styles/header.less';
+
+const blockName = 'header';
+
+const Header = () => {
   return (
-    <div className="header">
-      <h1> Header </h1>
-      <p>{info}</p>
-    </div>
+    <header className={blockName}>
+      <Title />
+      <Button className={`${blockName}__add-movie-button`} title='ADD MOVIE' />
+     <SearchForm blockName={blockName} className='search-form'/>
+    </header>
   );
 };
 
