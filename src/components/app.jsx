@@ -1,18 +1,29 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 import Header from "./header";
 import Main from "./main";
+import Footer from './footer';
+import ErrorBoundary from '../utils/error-boundary';
 
-import "../styles/styles.less";
+import '../styles/app.less';
+import '../styles/reset.css';
 
-export default class App extends React.Component {
+const App = () => {
 
-    render() {
-        return (
-            <div className="app">
-              <Header info='Header Class Component' />
-              <Main />
-            </div>
-          );
-    }
+  return (
+      <>
+        <Header />
+        <Main />
+        <ErrorBoundary>
+          <Footer />
+        </ErrorBoundary>
+      </>
+  );
 }
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(
+  <App />,
+  rootElement
+);

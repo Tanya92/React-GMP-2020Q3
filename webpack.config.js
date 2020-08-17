@@ -62,7 +62,7 @@ const jsLoaders = () => {
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
-  entry:[ '@babel/polyfill', './components/index.jsx' ],
+  entry:[ '@babel/polyfill', './components/app.jsx' ],
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist')
@@ -103,6 +103,10 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [ MiniCssExtractPlugin.loader, 'css-loader' ]
+      },
       {
         test: /\.less$/,
         use: [ MiniCssExtractPlugin.loader, 'css-loader', 'less-loader' ]
