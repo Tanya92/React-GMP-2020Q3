@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles'; 
 
 import Button from '@material-ui/core/Button';
+import { Menu } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MyButton from './my-button';
+import MovieFormDialog from './movie-form-dialog';
 
 import '../styles/movie-card.less';
-import { Menu } from '@material-ui/core';
+
 
 const blockName = 'movie-card';
 
@@ -32,19 +35,41 @@ const useStyles = makeStyles({
             backgroundColor: '#d8d2d2',
             opacity: '1'
         }
+    },
+    menu: {
+        'MuiList-root': {
+            backgroundColor: '#555555',
+          }
+    },
+    button: {
+        background: 'none',
+        border: 'none',
+        fontSize: '1.2rem',
+        '&:hover': {
+            color: '#f65261'
+        }
+        
     }
 })
 
-const MovieCard = ({ image, title, genre, releaseDate }) => {
+const MovieCard = ({ movieData }) => {
     const [anchorEl, setAnchorEl] = useState('');
+    const [isOpenedEditForm, setOpenedEditForm] = useState(false);
+    const [isOpenedDeleteForm, setOpenedDeleteForm] = useState(false);
+    const { image, title, genre, releaseDate } = movieData;
+
     const classes = useStyles();
 
-    console.log('anchorEl', anchorEl)
+    const handleClickMenuButton = event => setAnchorEl(event.currentTarget)
 
-    const handleClick = event => setAnchorEl(event.currentTarget)
-
-    const handleClose = () => setAnchorEl(null);
+    const handleCloseMenuButton = () => setAnchorEl(null);
     
+    const handleOpenEditForm = () => setOpenedEditForm(true);
+    const handleCloseEditForm = () => setOpenedEditForm(false);
+
+    const handleOpenDeleteForm = () => setOpenedDeleteForm(true);
+    const handleCloseDeleteForm = () => setOpenedDeleteForm(false);
+
     return (
         <div className={blockName}>
             <div className={`${blockName}-image-container`}>
@@ -53,7 +78,7 @@ const MovieCard = ({ image, title, genre, releaseDate }) => {
                     alt={`image for ${title}`}
                     className={`${blockName}-image`}
                 />
-                <Button aria-controls='simple-menu' aria-haspopup='true' onClick={handleClick} className={classes.menuButton}>
+                <Button aria-controls='simple-menu' aria-haspopup='true' onClick={handleClickMenuButton} className={classes.menuButton}>
                     <MoreVertIcon />
                 </Button>
                     <Menu
@@ -61,20 +86,42 @@ const MovieCard = ({ image, title, genre, releaseDate }) => {
                         anchorEl={anchorEl}
                         keepMounted
                         open={Boolean(anchorEl)}
-                        onClose={handleClose} 
-                        
+                        onClose={handleCloseMenuButton} 
+                        className={classes.menu} 
                     >
-                        <MenuItem onClick={handleClose} className={classes.option}>
-                            <EditIcon/> Edit
+                        <MenuItem onClick={handleCloseMenuButton} className={classes.option}>
+                            <MyButton 
+                                className={classes.button} 
+                                title='Edit'
+                                onClick={handleOpenEditForm} 
+                                icon={<EditIcon style={{marginRight: '5px'}}/>}
+                            />
+                               <MovieFormDialog 
+                                    formTitle='edit'
+                                    isOpenedForm={isOpenedEditForm} 
+                                    handleCloseForm={handleCloseEditForm} 
+                                    movieData={movieData}
+                                />
                         </MenuItem>
-                        <MenuItem onClick={handleClose} className={classes.option}>
-                            <DeleteIcon/> Delete
-                        </MenuItem>
+                        <MenuItem onClick={handleCloseMenuButton} className={classes.option}>
+                            <MyButton 
+                                className={classes.button} 
+                                title='Delete'
+                                onClick={handleOpenDeleteForm} 
+                                icon={<DeleteIcon style={{marginRight: '5px'}}/>}
+                            />
+                                <MovieFormDialog 
+                                    formTitle='delete'
+                                    isOpenedForm={isOpenedDeleteForm} 
+                                    handleCloseForm={handleCloseDeleteForm} 
+                                    movieData={movieData}
+                                />
+                        </MenuItem> 
                     </Menu>
             </div>
             <div className={`${blockName}-info`}>
                 <span className={`${blockName}-info__title`}>{title}</span>
-                <span className={`${blockName}-info__release-date`}>{releaseDate}</span>
+                <span className={`${blockName}-info__release-date`}>{releaseDate.slice(0,4)}</span>
                 <span className={`${blockName}-info__genre`}>{genre}</span>
             </div>
         </div>
@@ -82,17 +129,23 @@ const MovieCard = ({ image, title, genre, releaseDate }) => {
 }
 
 MovieCard.propTypes = {
-    image: PropTypes.string,
-    title: PropTypes.string, 
-    genre: PropTypes.string, 
-    releaseDate: PropTypes.number
+    movieData: PropTypes.shape({
+        id: PropTypes.string,
+        image: PropTypes.string,
+        title: PropTypes.string, 
+        genre: PropTypes.string, 
+        releaseDate: PropTypes.string
+      }),
 };
 
 MovieCard.defaultProps = {
-    image: 'https://cdn.ananasposter.ru/image/cachewebp/catalog/poster/film/99/1506-1000x830.webp',
-    title: 'Pulp fiction',
-    genre: 'Action & Adventure',
-    releaseDate: 1994,
+    movieData: {
+        id: 'MO7412OTH',
+        image: 'https://squarefaction.ru/files/game/13938/cover/reservoir-dogs-bloody-days_1bf73424.jpg',
+        title: 'Reservoir Dogs',
+        genre: 'Oscar Winning Movie',
+        releaseDate: '1992-04-01',
+    },
 };
 
 export default MovieCard;

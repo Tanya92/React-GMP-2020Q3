@@ -9,7 +9,6 @@ const NavigationPanel = () => (
     <Panel 
         blockName={blockName}
         itemsArray={navigationItems}
-        isSelectedPanel={false}
     />
 )
 

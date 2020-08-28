@@ -25,10 +25,7 @@ const Main = () => {
           ( item, index ) => (
               <MovieCard 
                 key={index} 
-                image={item.image} 
-                title={item.title} 
-                genre={item.genre} 
-                releaseDate={item.releaseDate}
+                movieData={item}
               />
           )
         )}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles'; 
 
-import FormControl from '@material-ui/core/FormControl';
+import { FormControl } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -19,7 +19,10 @@ const useStyles = makeStyles({
       '&:before': {
         borderBottom: 'none',
         content: ''
-      }
+      },
+      '& .MuiSvgIcon-root': {
+        fill: '#f65261',
+    },
     },
     option: {
       border: 'none',
@@ -30,7 +33,7 @@ const useStyles = makeStyles({
     }
 })
 
-const SelectForm = ({ title }) => {
+const SelectForm = ({ title, selectItems }) => {
   const [value, setValue] = useState(title);
   const classes = useStyles();
 
@@ -39,20 +42,22 @@ const SelectForm = ({ title }) => {
     return (
         <FormControl>
             <Select value={value} onChange={handleChange} className={classes.select}>
-                <MenuItem value="1" className={classes.option}>option 1</MenuItem>
-                <MenuItem value={`${title}`} className={classes.option}>{title}</MenuItem>
-                <MenuItem value="3" className={classes.option}>option 3</MenuItem>
+              {selectItems.map((item, index) => (
+                <MenuItem  key={`${item}${index}`} value={item} className={classes.option}>{item}</MenuItem>
+              ))}
             </Select>
         </FormControl>
     )
 }
 
 SelectForm.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  selectItems: PropTypes.arrayOf(PropTypes.string),
 };
 
 SelectForm.defaultProps = {
-  title: ''
+  title: '',
+  selectItems: [],
 };
 
 export default SelectForm;
