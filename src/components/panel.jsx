@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SelectForm from './select-form';
-
-const Panel = ({ blockName, itemsArray, isSelectedPanel }) => {
+const Panel = ({ blockName, itemsArray }) => {
     const [activeEl, setActiveEl] = useState(null);
 
     const itemHandleClick = () => {
@@ -23,7 +21,7 @@ const Panel = ({ blockName, itemsArray, isSelectedPanel }) => {
                                 `${blockName}__list__item ${activeEl === item ? 'active' : ''}`}
                             onClick={itemHandleClick}
                         >
-                        {isSelectedPanel ? <SelectForm title={item} /> : item}   
+                        {item}   
                         </li>
                     )
                 }
@@ -35,12 +33,10 @@ const Panel = ({ blockName, itemsArray, isSelectedPanel }) => {
 Panel.propTypes = {
     blockName: PropTypes.string,
     itemsArray: PropTypes.arrayOf(PropTypes.string), 
-    isSelectedPanel: PropTypes.bool
 }
 
 Panel.defaultProps = {
     blockName: '',
     itemsArray: [],
-    isSelectedPanel: true
 }
 export default Panel;
