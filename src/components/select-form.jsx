@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles'; 
@@ -37,7 +37,7 @@ const SelectForm = ({ title, selectItems }) => {
   const [value, setValue] = useState(title);
   const classes = useStyles();
 
-   const handleChange = event => setValue(event.target.value)
+   const handleChange = useCallback(() => setValue(event.target.value), [event]);
 
     return (
         <FormControl>

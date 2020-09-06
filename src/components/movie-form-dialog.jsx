@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import sn from 'classnames';
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     color: '#ffffff',
     fontSize: '1.5rem',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   option: {
     color: '#000000',
@@ -75,7 +75,7 @@ const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData 
 
   const [selectValue, setSelectValue] = useState(genre);
 
-  const handleChange = event => setSelectValue(event.target.value);
+  const handleChange = useCallback(event => setSelectValue(event.target.value), [event]);
 
 
   const { labels, placeholders, buttons, genreList, movieId, formDescription } = formsData;

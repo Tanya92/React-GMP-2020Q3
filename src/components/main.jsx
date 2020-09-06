@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import NavigationPanel from './navigation-panel';
 import SortingPanel from './sorting-panel';
@@ -11,7 +12,7 @@ import '../styles/main.less';
 
 const blockName = 'main';
 
-const Main = () => {
+const Main = ({setHeaderContent}) => {
 
   return (
     <main className={blockName}>
@@ -26,12 +27,21 @@ const Main = () => {
               <MovieCard 
                 key={index} 
                 movieData={item}
+                setHeaderContent={setHeaderContent}
               />
           )
         )}
       </div>
     </main>
   );
+}
+
+Main.propTypes = {
+  setHeaderContent: PropTypes.func,
+}
+
+Main.defaultProps = {
+  setHeaderContent: () => {}
 }
 
 export default Main;

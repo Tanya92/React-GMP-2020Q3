@@ -1,0 +1,76 @@
+@blockName: movie-info;
+
+.@{blockName} {
+  display: flex;
+  padding: 20px;
+
+  &__container {
+    width: 100%;
+    color: #fff;
+    font-size: 1.5rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  &__icon {
+    margin: 10px 20px;
+    font-size: 35px;
+    cursor: pointer;
+  }
+
+  &__info-container {
+    flex-grow: 1;
+    padding-left: 20px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    font-size: 2.3rem;
+    padding: 20px;
+  }
+
+  &__rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    border-radius: 50%;
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    font-size: 1.4rem;
+    border: 2px solid #fff;
+  }
+
+  &__genre {
+    margin: 20px 0;
+    color: #555;
+    font-weight: bold;
+  }
+
+  &__release-date {
+    margin-right: 20px;
+    color: #f65261;
+  }
+
+  &__duration {
+    color: #f65261;
+  }
+
+  &__description {
+    margin-top: 20px;
+  }
+
+  &-image {
+    height: 400px;
+    width: 300px;
+  }
+}
