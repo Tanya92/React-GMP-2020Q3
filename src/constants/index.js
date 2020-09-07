@@ -24,6 +24,9 @@ export const moviesData = [
         title: 'Pulp fiction',
         genre: 'Action & Adventure',
         releaseDate: '1994-08-05',
+        rating: '4.3',
+        duration: '154 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     },
     {
         id: 'MO3298OTR',
@@ -31,6 +34,9 @@ export const moviesData = [
         title: 'Bohemian Rapsody',
         genre: 'drama, Biography, Music',
         releaseDate: '2018-07-05',
+        rating: '4.4',
+        duration: '118 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     },
     {
         id: 'MO5582OSD',
@@ -38,6 +44,9 @@ export const moviesData = [
         title: 'Bill: Vol 2',
         genre: 'Oscar Winning Movie',
         releaseDate: '2004-09-09',
+        rating: '4.8',
+        duration: '124 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     },
     {
         id: 'MO7412OTH',
@@ -45,6 +54,9 @@ export const moviesData = [
         title: 'Avengers: War of Infinity',
         genre: 'Action & Adventure',
         releaseDate: '2018-11-05',
+        rating: '4.7',
+        duration: '94 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     },
     {
         id: 'MO7412OTH',
@@ -52,6 +64,9 @@ export const moviesData = [
         title: 'Inception',
         genre: 'Action & Adventure',
         releaseDate: '2010-06-06',
+        rating: '4',
+        duration: '104 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     },
     {
         id: 'MO7412OTH',
@@ -59,6 +74,9 @@ export const moviesData = [
         title: 'Reservoir Dogs',
         genre: 'Oscar Winning Movie',
         releaseDate: '1992-04-01',
+        rating: '4.0',
+        duration: '114 min',
+        description: 'Except find him fault physical has which find one laborious expound master find of except you, occasionally itself because nor expound obtain. Take denouncing example: annoying him can ever, desires are circumstances actual occur, procure because occasionally. Trivial can must annoying idea there one itself to find not exercise builder produces circumstances — teachings anyone will. You in some circumstances not undertakes anyone there consequences can, ever procure not it you consequences one expound some to painful obtain. In find are was ever account physical dislikes actual, avoids take, some pursues not know again.',
     }
 ]
 

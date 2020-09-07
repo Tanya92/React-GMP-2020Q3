@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const Panel = ({ blockName, itemsArray }) => {
     const [activeEl, setActiveEl] = useState(null);
 
-    const itemHandleClick = () => {
+    const itemHandleClick = useCallback(() => {
         if ((event.target).innerText !== activeEl) {
             setActiveEl(event.target.innerText)
         }
-    }
+    },[event]);
 
     return (
         <nav className={blockName}>
