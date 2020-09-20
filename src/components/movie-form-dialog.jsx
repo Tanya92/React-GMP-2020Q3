@@ -71,9 +71,9 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData } ) => {
   const classes = useStyles();
-  const { id, image, title, genre, releaseDate } = movieData;
+  const { id, poster_path, title, genres, release_date, runtime, overview } = movieData;
 
-  const [selectValue, setSelectValue] = useState(genre);
+  const [selectValue, setSelectValue] = useState(genres[0]);
 
   const handleChange = useCallback(event => setSelectValue(event.target.value), [event]);
 
@@ -108,7 +108,7 @@ const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData 
                   key={`${label}${index}`}
                   id="date"
                   type="date"
-                  defaultValue={!releaseDate ? new Date().toISOString().slice(0, 10): releaseDate}
+                  defaultValue={!release_date ? new Date().toISOString().slice(0, 10): release_date}
                   label={label}
                   className={classes.formControl}
                   InputLabelProps={{
@@ -122,7 +122,7 @@ const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData 
                 />           
             );     
         case 'MOVIE URL': 
-         return renderFormItem(label, index, image);
+         return renderFormItem(label, index, poster_path);
         case 'GENRE':
           return (
             <FormControl className={classes.formControl} key={`${label}${index}`}>
@@ -142,7 +142,11 @@ const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData 
                 ))}
             </Select>
             </FormControl> 
-          );             
+          ); 
+        case 'OVERVIEW': 
+          return renderFormItem(label, index, overview);
+        case 'RUNTIME': 
+          return renderFormItem(label, index, runtime);              
         default:
          return renderFormItem(label, index, '');
     }
@@ -199,11 +203,13 @@ const MovieFormDialog = ( { formTitle, isOpenedForm, handleCloseForm, movieData 
 MovieFormDialog.propTypes = {
     formTitle: PropTypes.string,
     movieData: PropTypes.shape({
-      id: PropTypes.string,
-      image: PropTypes.string,
+      id: PropTypes.number,
+      poster_path: PropTypes.string,
       title: PropTypes.string, 
-      genre: PropTypes.string, 
-      releaseDate: PropTypes.string
+      genres: PropTypes.arrayOf(PropTypes.string), 
+      release_date: PropTypes.string,
+      runtime: PropTypes.number,
+      overview: PropTypes.string 
     }),
     isOpenedForm: PropTypes.bool,
     handleCloseForm: PropTypes.func
@@ -212,11 +218,13 @@ MovieFormDialog.propTypes = {
 MovieFormDialog.defaultProps = {
     formTitle: '',
     movieData: {
-      id: null,
-      image: '',
+      id: undefined,
+      poster_path: '',
       title: '',
-      genre: '',
-      releaseDate: null,
+      genres: [],
+      release_date: undefined,
+      runtime: undefined,
+      overview: ''
   },
     isOpenedForm: true,
     handleCloseForm: () => {},

@@ -1,0 +1,4 @@
+export const GET_DATA = 'GET_DATA';
+export const HEADER_CONTENT = 'HEADER_CONTENT';
+export const MOVIE_INFO = 'MOVIE_INFO';
+export const ADD_QUERY_PARAMETER = 'ADD_QUERY_PARAMETER';

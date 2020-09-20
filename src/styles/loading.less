@@ -1,0 +1,22 @@
+.skeleton-container {
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+
+  .skeleton {
+    margin: 20px auto;
+    background-color: #555;
+    animation: 2s linear 0s normal none infinite running rot;
+
+    @keyframes rot {
+
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

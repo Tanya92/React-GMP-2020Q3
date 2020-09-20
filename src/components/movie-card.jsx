@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, Suspense }  from 'react';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { movieInfo } from '../store/actions/actions';
 import { makeStyles } from '@material-ui/core/styles'; 
 
 import Button from '@material-ui/core/Button';
@@ -11,9 +13,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 const MyButton = React.lazy(() => import('./my-button'));
 const MovieFormDialog = React.lazy(() => import('./movie-form-dialog'));
+import {DEFAULT_URL} from '../constants/index'
 
 import '../styles/movie-card.less';
-
 
 const blockName = 'movie-card';
 
@@ -52,12 +54,14 @@ const useStyles = makeStyles({
     }
 })
 
-
-const MovieCard = ({ movieData, setHeaderContent }) => {
+const MovieCard = ({ movieData }) => {
+    
     const [anchorEl, setAnchorEl] = useState('');
     const [isOpenedEditForm, setOpenedEditForm] = useState(false);
     const [isOpenedDeleteForm, setOpenedDeleteForm] = useState(false);
-    const { image, title, genre, releaseDate } = movieData;
+    const dispatch = useDispatch();
+
+    const { poster_path, title, genres, release_date } = movieData;
 
     const classes = useStyles();
 
@@ -88,10 +92,14 @@ const MovieCard = ({ movieData, setHeaderContent }) => {
         <div className={blockName}>
             <div className={`${blockName}-image-container`} >
                 <img 
-                    src={image} 
+                    src={poster_path} 
                     alt={`image for ${title}`}
                     className={`${blockName}-image`}
-                    onClick={() => setHeaderContent(movieData)}
+                    onClick={() => dispatch(movieInfo(movieData))}
+                    onError={(event) => {
+                        event.target.src = DEFAULT_URL;
+                    }
+                    }
                 />
                 <Button aria-controls='simple-menu' aria-haspopup='true' onClick={handleClickMenuButton} className={classes.menuButton}>
                     <MoreVertIcon />
@@ -145,8 +153,8 @@ const MovieCard = ({ movieData, setHeaderContent }) => {
             </div>
             <div className={`${blockName}-info`}>
                 <span className={`${blockName}-info__title`}>{title}</span>
-                <span className={`${blockName}-info__release-date`}>{releaseDate.slice(0,4)}</span>
-                <span className={`${blockName}-info__genre`}>{genre}</span>
+                <span className={`${blockName}-info__release-date`}>{release_date.slice(0,4)}</span>
+                <span className={`${blockName}-info__genre`}>{genres.join(', ')}</span>
             </div>
         </div>
     );
@@ -154,24 +162,22 @@ const MovieCard = ({ movieData, setHeaderContent }) => {
 
 MovieCard.propTypes = {
     movieData: PropTypes.shape({
-        id: PropTypes.string,
-        image: PropTypes.string,
+        id: PropTypes.number,
+        poster_path: PropTypes.string,
         title: PropTypes.string, 
-        genre: PropTypes.string, 
-        releaseDate: PropTypes.string
-      }),
-    setHeaderContent: PropTypes.func,
+        genres: PropTypes.array, 
+        release_date: PropTypes.string
+      })
 };
 
 MovieCard.defaultProps = {
     movieData: {
-        id: 'MO7412OTH',
-        image: 'https://squarefaction.ru/files/game/13938/cover/reservoir-dogs-bloody-days_1bf73424.jpg',
+        id: 25,
+        poster_path: 'https://squarefaction.ru/files/game/13938/cover/reservoir-dogs-bloody-days_1bf73424.jpg',
         title: 'Reservoir Dogs',
-        genre: 'Oscar Winning Movie',
-        releaseDate: '1992-04-01',
-    },
-    setHeaderContent: () => {}
+        genres: ['Oscar Winning Movie'],
+        release_date: '1992-04-01',
+    }
 };
 
 export default MovieCard;

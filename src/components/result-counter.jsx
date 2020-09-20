@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const ResultCounter = ({ count }) => {
+const ResultCounter = ({ numberOfMovies }) => {
     return (
-        count ?
+        numberOfMovies ?
             (<div className='result-counter-container'>
-                <span className='result-counter'>{count}</span>
+                <span className='result-counter'>{numberOfMovies}</span>
                 <span className='result-counter-info'>movies found</span>
             </div>) :
             (
@@ -17,11 +18,16 @@ const ResultCounter = ({ count }) => {
 }
 
 ResultCounter.propTypes = {
-    count: PropTypes.number
+    numberOfMovies: PropTypes.number
 };
 
 ResultCounter.defaultProps = {
-    count: 6
+    numberOfMovies: 6
 };
 
-export default ResultCounter;
+function mapStateToProps(state) {
+    return {
+        numberOfMovies: state.getDataReducer.data?.length
+    }
+}
+export default connect(mapStateToProps)(ResultCounter);
