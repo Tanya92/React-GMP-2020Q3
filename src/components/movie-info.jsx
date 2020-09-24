@@ -1,25 +1,30 @@
 import React, {useContext} from 'react';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { headerContent } from '../store/actions/actions';
 import SearchIcon from '@material-ui/icons/Search';
 import Title from './title';
 
 import { ThemeContext } from '../utils/useThemes.jsx';
+import {DEFAULT_URL} from '../constants/index'
 
 import '../styles/movie-info.less';
 
+
 const blockName = 'movie-info';
 
-const MovieInfo = ({ headerContent, setHeaderContent}) => {
+const MovieInfo = ({ movieData}) => {
     const { theme, toggle, dark } = useContext(ThemeContext);
+    const dispatch = useDispatch();
 
-    const { image, title, rating, genre, releaseDate, duration, description } = headerContent;
+    const { poster_path, title, vote_average, genres, release_date, runtime, overview } = movieData;
 
     return (
       <div className={`${blockName}__container`} style={{backgroundColor: theme.backgroundColor}}>
         <div className={`${blockName}__header`}>
             <Title/>
-            <SearchIcon className={`${blockName}__icon`} onClick={() => setHeaderContent(null)}/>
+            <SearchIcon className={`${blockName}__icon`} onClick={() => dispatch(headerContent())}/>
         </div>
         <button
           type="button"
@@ -35,26 +40,29 @@ const MovieInfo = ({ headerContent, setHeaderContent}) => {
         </button>
         <div className={`${blockName}`}>
             <img 
-                src={image} 
+                src={poster_path} 
                 alt={`image for ${title}`}
                 className={`${blockName}-image`}
+                onError={(event) => {
+                  event.target.src = DEFAULT_URL;
+                }}
             />
             <div className={`${blockName}__info-container`}>
                 <h1 className={`${blockName}__title`}>
                     {title}
-                    <div className={`${blockName}__rating`}>{rating}</div>
+                    <div className={`${blockName}__rating`}>{vote_average}</div>
                 </h1>
             
-            <p className={`${blockName}__genre`}>{genre}</p>
+            <p className={`${blockName}__genre`}>{genres.join(', ')}</p>
             <p >
                 <span className={`${blockName}__release-date`}>
-                    {releaseDate.slice(0,4)}
+                    {release_date && release_date.slice(0,4)}
                 </span>
                 <span className={`${blockName}__duration`}>
-                    {duration}
+                    {runtime}
                 </span>
             </p>
-            <p className={`${blockName}__description`}>{description}</p>
+            <p className={`${blockName}__description`}>{overview}</p>
             </div>
         </div>
       </div>
@@ -63,32 +71,34 @@ const MovieInfo = ({ headerContent, setHeaderContent}) => {
   }
 
   MovieInfo.propTypes = {
-      headerContent: PropTypes.shape({
-        id: PropTypes.string,
-        image: PropTypes.string,
+      movieData: PropTypes.shape({
+        id: PropTypes.number,
+        poster_path: PropTypes.string,
         title: PropTypes.string, 
-        genre: PropTypes.string, 
-        releaseDate: PropTypes.string,
-        rating: PropTypes.string,
-        duration: PropTypes.string,
-        description: PropTypes.string,
+        genres: PropTypes.arrayOf(PropTypes.string), 
+        release_date: PropTypes.string,
+        vote_average: PropTypes.number,
+        runtime: PropTypes.number,
+        overview: PropTypes.string,
       }),
-      setHeaderContent: PropTypes.func
   };
 
   MovieInfo.defaultProps = {
-    headerContent: {
-        id: '',
-        image: '',
+    movieData: {
+        id: 0,
+        poster_path: '',
         title: '', 
-        genre: '', 
-        releaseDate: '',
-        rating: '',
-        duration: '',
-        description: '',
+        genres: [], 
+        release_date: '',
+        vote_average: 0,
+        runtime: 0,
+        overview: '',
       },
-      setHeaderContent: () => {}
   }
 
+  function mapStateToProps(state) {
+    const {movieInfo} = state.headerReducer;
+    return {movieData: movieInfo}
+  }
 
-  export default MovieInfo;
+  export default connect(mapStateToProps)(MovieInfo);

@@ -1,7 +1,9 @@
 import React, { Suspense, useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import sn from 'classnames';
 
+import AddIcon from '@material-ui/icons/Add';
 import MyButton from './my-button';
 import Title from './title';
 import SearchForm from "./search-form";
@@ -10,23 +12,22 @@ const MovieInfo = React.lazy(() => import('./movie-info'));
 
 import { ThemeProvider } from '../utils/useThemes.jsx';
 
-import AddIcon from '@material-ui/icons/Add';
-
 import '../styles/header.less';
 
 const blockName = 'header';
 
-const Header = ({ headerContent, setHeaderContent }) => {
+const Header = ({ movieInfo }) => {
   const [isOpenedForm, setOpenedForm] = useState(false);
 
   const handleOpen = () => setOpenedForm(true);
 
   const handleClose = () => setOpenedForm(false);
-
+    
   useEffect(() => {
     if (isOpenedForm) {
         document.title = 'Add movie form';
     }
+
     return () => document.title = 'React 2020Q3'
 })
  
@@ -50,18 +51,16 @@ const Header = ({ headerContent, setHeaderContent }) => {
       <SearchForm blockName={blockName} className='search-form'/>
     </>
   )
-  
  
     return (
       <ThemeProvider>
-      <header className={sn(blockName, headerContent && `${blockName}__movie-info`)}>
+      <header className={sn(blockName, movieInfo && `${blockName}__movie-info`)}>
         {
-        headerContent === null ? 
+        movieInfo === null ? 
           <HeaderContent/> :
           <Suspense fallback={<div>Loading...</div>}>
-            <MovieInfo headerContent={headerContent} setHeaderContent={setHeaderContent}/>
-          </Suspense> 
-          
+          <MovieInfo />
+        </Suspense>  
         }
       </header>
       </ThemeProvider>
@@ -69,31 +68,16 @@ const Header = ({ headerContent, setHeaderContent }) => {
 }
 
 Header.propTypes = {
-  headerContent: PropTypes.shape({
-    id: PropTypes.string,
-        image: PropTypes.string,
-        title: PropTypes.string, 
-        genre: PropTypes.string, 
-        releaseDate: PropTypes.string,
-        rating: PropTypes.string,
-        duration: PropTypes.string,
-        description: PropTypes.string,
-  }),
-  setHeaderContent: PropTypes.func
+  movieInfo: PropTypes.object,
 };
 
 Header.defaultProps = {
-  headerContent: {
-      id: '',
-      image: '',
-      title: '', 
-      genre: '', 
-      releaseDate: '',
-      rating: '',
-      duration: '',
-      description: '',
-    },
-    setHeaderContent: () => {}
+  movieInfo: null,
 }
 
-export default Header;
+function mapStateToProps(state) {
+  const {movieInfo} = state.headerReducer;
+  return {movieInfo}
+}
+
+export default connect(mapStateToProps)(Header);

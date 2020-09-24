@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import NavigationPanel from './navigation-panel';
 import SortingPanel from './sorting-panel';
 import ResultCounter from './result-counter';
 import MovieCard from './movie-card';
-
-import { moviesData } from '../constants/index';
+import Loading from './loading';
 
 import '../styles/main.less';
+import { getDataRequest } from "../utils/requests";
 
 const blockName = 'main';
 
-const Main = ({setHeaderContent}) => {
+ 
+const Main = ({ moviesData, queryObject }) => {
+  const dispatch = useDispatch();
+  console.log(moviesData)
+  useEffect(() => {
+    getDataRequest(queryObject)(dispatch)
+  }, [queryObject])
 
   return (
     <main className={blockName}>
@@ -20,28 +27,40 @@ const Main = ({setHeaderContent}) => {
         <NavigationPanel />
         <SortingPanel />
       </div>
-      <ResultCounter />
-      <div className={`${blockName}-movies-container`}>
-        {moviesData.map(
-          ( item, index ) => (
-              <MovieCard 
-                key={index} 
-                movieData={item}
-                setHeaderContent={setHeaderContent}
-              />
-          )
-        )}
-      </div>
+      {moviesData ? 
+      <>
+        <ResultCounter />
+        <div className={`${blockName}-movies-container`}>
+          {moviesData?.map(
+            ( item, index ) => (
+                <MovieCard 
+                  key={index} 
+                  movieData={item}
+                />
+            )
+          )}
+        </div>
+      </> :
+        <Loading />
+      }
     </main>
   );
 }
 
 Main.propTypes = {
-  setHeaderContent: PropTypes.func,
+  moviesData: PropTypes.array,
+  queryObject: PropTypes.object,
 }
 
 Main.defaultProps = {
-  setHeaderContent: () => {}
+  moviesData: [],
+  queryObject: {},
 }
 
-export default Main;
+function mapStateToProps (state) {
+  return {
+    moviesData: state.getDataReducer.data,
+    queryObject: state.queryReducer
+  }
+}
+export default connect(mapStateToProps)(Main);

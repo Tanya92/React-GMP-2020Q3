@@ -19,7 +19,6 @@ const Footer = (props) => {
 }
 
 
-
 Footer.propTypes = {
   children: PropTypes.node.isRequired
 }
