@@ -1,4 +1,4 @@
-import { getData } from '../store/actions/actions';
+import { getData, editMovie, addMovie, deleteMovie } from '../store/actions/actions';
 
 const url = 'http://localhost:4000/movies';
 
@@ -30,4 +30,56 @@ export const getDataRequest = (queryObject) => dispatch => {
     })
     .catch(error => alert(error))
 }  
+
+export const addMovieRequest = (body) => dispatch => {
+  delete body.id;
+
+  fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: body ? JSON.stringify(body) : null
+  })
+  .then((res) => {
+    console.log('add request',res) 
+    if (res.status === 200) {
+      dispatch(addMovie()) 
+    }
+  })  
+  .then(() =>  alert('Movie added!'))
+  .catch(error => alert(error))
+}  
+
+export const editMovieRequest = (body) => dispatch => {
+  fetch(url, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: body ? JSON.stringify(body) : null
+  })
+  .then((res) => { 
+    console.log('edit request',res) 
+    alert('Movie edited!')
+    dispatch(editMovie()) 
+  })
+  .catch(error => alert(error))
+}  
   
+export const deleteMovieRequest = (id) => dispatch => {
+  fetch(`${url}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+      },
+  })
+  .then((res) => {
+    console.log('delete request',res) 
+    alert('Movie deleted!')
+    dispatch(deleteMovie())
+  })
+  .catch(error => alert(error))
+}  

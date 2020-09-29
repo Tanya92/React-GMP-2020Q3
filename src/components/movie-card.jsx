@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, Suspense }  from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { movieInfo } from '../store/actions/actions';
+import { movieInfo, pressEditButton, pressDeleteButton } from '../store/actions/actions';
 import { makeStyles } from '@material-ui/core/styles'; 
 
 import Button from '@material-ui/core/Button';
@@ -82,10 +82,16 @@ const MovieCard = ({ movieData }) => {
 
     const handleCloseMenuButton = () => setAnchorEl(null);
     
-    const handleOpenEditForm = () => setOpenedEditForm(true);
+    const handleOpenEditForm = () => {
+        dispatch(pressEditButton())
+        setOpenedEditForm(true);
+    }
     const handleCloseEditForm = () => setOpenedEditForm(false);
 
-    const handleOpenDeleteForm = () => setOpenedDeleteForm(true);
+    const handleOpenDeleteForm = () => { 
+        dispatch(pressDeleteButton())
+        setOpenedDeleteForm(true);
+    }
     const handleCloseDeleteForm = () => setOpenedDeleteForm(false);
   
     return (
@@ -123,7 +129,6 @@ const MovieCard = ({ movieData }) => {
                             </Suspense>
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <MovieFormDialog 
-                                        formTitle='edit'
                                         isOpenedForm={isOpenedEditForm} 
                                         handleCloseForm={handleCloseEditForm} 
                                         movieData={movieData}
@@ -142,7 +147,6 @@ const MovieCard = ({ movieData }) => {
                             </Suspense>
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <MovieFormDialog 
-                                        formTitle='delete'
                                         isOpenedForm={isOpenedDeleteForm} 
                                         handleCloseForm={handleCloseDeleteForm} 
                                         movieData={movieData}

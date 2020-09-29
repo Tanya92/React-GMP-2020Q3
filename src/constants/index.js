@@ -31,6 +31,7 @@ export const formsData = {
     },
     movieId: 'MOVIE ID',
     labels: [
+        'MOVIE ID',
         'TITLE',
         'RELEASE DATE',
         'MOVIE URL',
@@ -39,6 +40,7 @@ export const formsData = {
         'RUNTIME',
     ],
     placeholders: [
+        'Insert ID',
         'Insert title',
         'Select date',
         'Movie URL here',
@@ -60,8 +62,15 @@ export const formsData = {
         ]
     },
     genreList: [
-        'Oscar Winning Movie',
-        'Action & Adventure',
-        'drama, Biography, Music'
+        'Comedy',
+        'Drama',
+        'Romance',
+        'Adventure',
+        'Family',
+        'Documentary',
+        'Horror',
+        'Crime',
+        'Fantasy',
+        'Science Fiction'
     ]
 }

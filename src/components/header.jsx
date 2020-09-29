@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react";
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import sn from 'classnames';
 
@@ -9,6 +9,7 @@ import Title from './title';
 import SearchForm from "./search-form";
 const MovieFormDialog = React.lazy(() => import('./movie-form-dialog'));
 const MovieInfo = React.lazy(() => import('./movie-info'));
+import {pressAddButton} from '../store/actions/actions';
 
 import { ThemeProvider } from '../utils/useThemes.jsx';
 
@@ -18,8 +19,12 @@ const blockName = 'header';
 
 const Header = ({ movieInfo }) => {
   const [isOpenedForm, setOpenedForm] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleOpen = () => setOpenedForm(true);
+  const handleOpen = () => {
+    dispatch(pressAddButton())
+    setOpenedForm(true);
+  }
 
   const handleClose = () => setOpenedForm(false);
     
@@ -29,7 +34,7 @@ const Header = ({ movieInfo }) => {
     }
 
     return () => document.title = 'React 2020Q3'
-})
+  });
  
 
   const HeaderContent = () => (
@@ -43,7 +48,6 @@ const Header = ({ movieInfo }) => {
       />
       <Suspense fallback={<div>Loading...</div>}>
         <MovieFormDialog 
-          formTitle='addMovie'
           isOpenedForm={isOpenedForm} 
           handleCloseForm={handleClose}
         />
@@ -76,8 +80,8 @@ Header.defaultProps = {
 }
 
 function mapStateToProps(state) {
-  const {movieInfo} = state.headerReducer;
-  return {movieInfo}
+  const { movieInfo } = state.headerReducer;
+  return { movieInfo };
 }
 
 export default connect(mapStateToProps)(Header);

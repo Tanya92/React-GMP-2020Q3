@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import { getDataReducer } from './get-data-reducer';
+import { asyncReducer } from './async-reducer';
 import {headerReducer} from './header-reducer';
 import {queryReducer} from './query-reducer';
+import {titleReducer} from './title-reducer'; 
 
 export const rootReducer = combineReducers({
     headerReducer,
-    getDataReducer,
-    queryReducer
+    asyncReducer,
+    queryReducer,
+    titleReducer
 })

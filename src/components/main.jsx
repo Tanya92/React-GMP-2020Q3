@@ -13,13 +13,12 @@ import { getDataRequest } from "../utils/requests";
 
 const blockName = 'main';
 
- 
-const Main = ({ moviesData, queryObject }) => {
+const Main = ({ moviesData, queryObject, isGoodResponse }) => {
   const dispatch = useDispatch();
-  console.log(moviesData)
+
   useEffect(() => {
     getDataRequest(queryObject)(dispatch)
-  }, [queryObject])
+  }, [queryObject, isGoodResponse])
 
   return (
     <main className={blockName}>
@@ -50,17 +49,20 @@ const Main = ({ moviesData, queryObject }) => {
 Main.propTypes = {
   moviesData: PropTypes.array,
   queryObject: PropTypes.object,
+  isGoodResponse: PropTypes.bool
 }
 
 Main.defaultProps = {
   moviesData: [],
   queryObject: {},
+  isGoodResponse: true
 }
 
 function mapStateToProps (state) {
   return {
-    moviesData: state.getDataReducer.data,
-    queryObject: state.queryReducer
+    moviesData: state.asyncReducer.data,
+    queryObject: state.queryReducer,
+    isGoodResponse: state.asyncReducer.isGoodResponse
   }
 }
 export default connect(mapStateToProps)(Main);
