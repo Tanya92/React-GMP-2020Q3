@@ -27,7 +27,7 @@ ResultCounter.defaultProps = {
 
 function mapStateToProps(state) {
     return {
-        numberOfMovies: state.getDataReducer.data?.length
+        numberOfMovies: state.asyncReducer.data?.length
     }
 }
 export default connect(mapStateToProps)(ResultCounter);
