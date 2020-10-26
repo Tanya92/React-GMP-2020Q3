@@ -1,5 +1,6 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { connect, useDispatch } from 'react-redux';
+import {Route, useRouteMatch, useHistory, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import sn from 'classnames';
 
@@ -10,6 +11,7 @@ import SearchForm from "./search-form";
 const MovieFormDialog = React.lazy(() => import('./movie-form-dialog'));
 const MovieInfo = React.lazy(() => import('./movie-info'));
 import {pressAddButton} from '../store/actions/actions';
+import {url} from '../utils/requests';
 
 import { ThemeProvider } from '../utils/useThemes.jsx';
 
@@ -20,6 +22,7 @@ const blockName = 'header';
 const Header = ({ movieInfo }) => {
   const [isOpenedForm, setOpenedForm] = useState(false);
   const dispatch = useDispatch();
+  let {path} = useRouteMatch();
 
   const handleOpen = () => {
     dispatch(pressAddButton())
@@ -59,13 +62,11 @@ const Header = ({ movieInfo }) => {
     return (
       <ThemeProvider>
       <header className={sn(blockName, movieInfo && `${blockName}__movie-info`)}>
-        {
-        movieInfo === null ? 
-          <HeaderContent/> :
-          <Suspense fallback={<div>Loading...</div>}>
-          <MovieInfo />
-        </Suspense>  
-        }
+        <Switch>
+          <Route exact path={path} component={HeaderContent}/>
+          <Route path={`${url}/film/:id`} component={MovieInfo} />
+        </Switch>
+        
       </header>
       </ThemeProvider>
     );

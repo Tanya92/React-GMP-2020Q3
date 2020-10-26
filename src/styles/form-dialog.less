@@ -1,3 +1,4 @@
+@import './mixins.less';
 @blockName: form-dialog;
 
 .@{blockName} {
@@ -16,26 +17,17 @@
   }
 
   &__form-button {
-    margin: 30px 10px;
-    width: 25%;
-    min-width: 160px;
-    height: 50px;
-    border-radius: 5px;
-    font-size: 16px;
+    .common-button-style-mixin;
   }
 
   &__reset-button {
-    background: none;
-    border: 1px solid #f65261;
-    color: #f65261;
+    .with-border-button-mixin;
   }
 
   &__submit-button,
   &__save-button,
   &__confirm-button {
-    background-color: #f65261;
-    border: none;
-    color: #fff;
+    .with-background-button-mixin;
   }
 
   #feedback {

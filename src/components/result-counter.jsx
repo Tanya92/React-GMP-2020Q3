@@ -4,16 +4,11 @@ import PropTypes from 'prop-types';
 
 const ResultCounter = ({ numberOfMovies }) => {
     return (
-        numberOfMovies ?
+        numberOfMovies && 
             (<div className='result-counter-container'>
                 <span className='result-counter'>{numberOfMovies}</span>
-                <span className='result-counter-info'>movies found</span>
-            </div>) :
-            (
-                <div className='result-counter-container'>
-                    <span className='result-counter'>Not found</span>
-                </div>
-            )
+                <span className='result-counter-info'>movie(s) found</span>
+            </div>)
     )
 }
 

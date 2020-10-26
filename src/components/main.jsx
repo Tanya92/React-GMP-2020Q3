@@ -7,6 +7,7 @@ import SortingPanel from './sorting-panel';
 import ResultCounter from './result-counter';
 import MovieCard from './movie-card';
 import Loading from './loading';
+import ZeroInfo from './zero-info';
 
 import '../styles/main.less';
 import { getDataRequest } from "../utils/requests";
@@ -26,7 +27,7 @@ const Main = ({ moviesData, queryObject, isGoodResponse }) => {
         <NavigationPanel />
         <SortingPanel />
       </div>
-      {moviesData ? 
+      {moviesData && !isGoodResponse? 
       <>
         <ResultCounter />
         <div className={`${blockName}-movies-container`}>
@@ -40,7 +41,11 @@ const Main = ({ moviesData, queryObject, isGoodResponse }) => {
           )}
         </div>
       </> :
+      <>
         <Loading />
+        <ZeroInfo/>
+      </>
+        
       }
     </main>
   );

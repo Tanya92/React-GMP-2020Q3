@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { withFormik } from 'formik';
 import sn from 'classnames';
 import MyButton from './my-button';
@@ -18,15 +18,16 @@ function mapStateToProps(state) {
   return {formTitle}
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+      create: (values) => addMovieRequest(values)(dispatch),
+      update: (values) => editMovieRequest(values)(dispatch),
+      remove: (values) => deleteMovieRequest(values.id)(dispatch)
+  }
+}
+
 const handleValidate = values => {
-  const errors = {
-    poster_path: null, 
-    release_date: null,
-    title: null, 
-    genres: null, 
-    runtime: null, 
-    overview: null
-  };
+  const errors = {};
 
   const requiredKeys = Object.keys(values).filter(key => key !== 'id');
 
@@ -58,61 +59,14 @@ const MyForm = props => {
     touched,
     errors,
     formTitle,
-    handleCloseForm,
     handleSubmit,
   } = props;
-
-  const dispatch = useDispatch();
 
   const { labels, placeholders, buttons, genreList, movieId } = formsData;
   
   const movieButtons = buttons[formTitle];
 
-  const checkErrorObject = () => {
-    const errors = handleValidate(values)
-    const isEmptyObj = Object.keys(errors).length === 0 && errors.constructor === Object;
-    const isNullErrors = Object.keys(errors).every(key => errors[key] === null);
-    return !isEmptyObj && isNullErrors;
-  }
-
-  const handleButtonClick = (button) => {
-    const isValidateData = checkErrorObject();
-      if (button === 'SUBMIT') {
-        if (isValidateData) {
-          addMovieRequest(values)(dispatch);
-          handleCloseForm()
-        }    
-      }
-      
-      if (button === 'SAVE') {
-        if (isValidateData) {
-          editMovieRequest(values)(dispatch);
-          handleCloseForm()
-        }
-      }
-        
-      if (button === 'RESET') {
-        Object.keys(values).forEach(key => delete values[key]);
- 
-      }
-    if (button === 'CONFIRM') {
-      deleteMovieRequest(values.id)(dispatch)
-      handleCloseForm()
-    }
-  };
-
-  const handleButtonType = (button) => {
-    switch(button) {
-      case 'RESET':
-        return 'reset';
-      case 'SUBMIT':
-      case 'CONFIRM':
-      case 'SAVE':
-        return 'submit';
-      default: 
-        return 'button';
-    }
-  }
+  const handleReset = () =>  Object.keys(values).forEach(key => delete values[key]);
 
   function handleSelectHelper (event) {
     const select = event.target;
@@ -156,7 +110,6 @@ const MyForm = props => {
               if (field !== 'runtime' && field !== 'id') {
                 values[field] = event.target.value.trim()
               } else {
-                console.log(field, typeof values[field])
                 values[field] = Number(event.target.value);
               }
             }}
@@ -227,7 +180,7 @@ const MyForm = props => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={blockName}>
+      <form onSubmit={handleSubmit} onReset={handleReset} className={blockName}>
       {formTitle ==='delete' ? 
           <p className='delete-question'>Are you sure you want to delete this movie?</p> :
           <>
@@ -239,10 +192,9 @@ const MyForm = props => {
       {movieButtons.map(
           (buttonName, index) => 
             <MyButton 
-              type={handleButtonType(buttonName)}
+              type={buttonName === "RESET" ? 'reset' : 'submit'}
               key={`${buttonName}${index}`}
               title={buttonName}
-              onClick={()=>handleButtonClick(buttonName, errors)} 
               className={sn(
                 `${blockName}__${buttonName.toLowerCase()}-button`,
                 `${blockName}__form-button`
@@ -254,7 +206,7 @@ const MyForm = props => {
   );
 };
  
- const MyEnhancedForm = withFormik({
+ const FormikForm = withFormik({
   mapPropsToValues: ({movieData}) => { 
     const { id, poster_path, title, genres, release_date, runtime, overview } = movieData;
       
@@ -269,11 +221,19 @@ const MyForm = props => {
     } 
   },
   validate: values => handleValidate(values),
-  handleSubmit: () => {
-    console.log('Form is submitted!')
-  },
+  handleSubmit: (values, {props}) => {
+    const { create, update, remove, formTitle, handleCloseForm } = props;
+    switch (formTitle) {
+        case 'addMovie': create(values); break;
+        case 'edit': update(values); break;
+        case 'delete': remove(values); break;
+    }
+    handleCloseForm();
+},
   displayName: 'Movie Form Dialog'
- })(connect(mapStateToProps)(MyForm));
+ })(MyForm);
+
+ const MyEnhancedForm = connect(mapStateToProps, mapDispatchToProps)(FormikForm);
 
  MyForm.propTypes = {
     values: PropTypes.shape({
@@ -320,7 +280,6 @@ const MyForm = props => {
     overview: null 
   },
   handleCloseForm: () => {},
-  handleSubmit: () => {},
   errors: {
     id: null,
     poster_path: null,

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, Suspense }  from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Link, useRouteMatch} from 'react-router-dom'
 
 import { movieInfo, pressEditButton, pressDeleteButton } from '../store/actions/actions';
 import { makeStyles } from '@material-ui/core/styles'; 
@@ -60,8 +61,9 @@ const MovieCard = ({ movieData }) => {
     const [isOpenedEditForm, setOpenedEditForm] = useState(false);
     const [isOpenedDeleteForm, setOpenedDeleteForm] = useState(false);
     const dispatch = useDispatch();
+    let {url} = useRouteMatch();
 
-    const { poster_path, title, genres, release_date } = movieData;
+    const { id, poster_path, title, genres, release_date } = movieData;
 
     const classes = useStyles();
 
@@ -97,16 +99,21 @@ const MovieCard = ({ movieData }) => {
     return (
         <div className={blockName}>
             <div className={`${blockName}-image-container`} >
-                <img 
-                    src={poster_path} 
-                    alt={`image for ${title}`}
-                    className={`${blockName}-image`}
-                    onClick={() => dispatch(movieInfo(movieData))}
-                    onError={(event) => {
-                        event.target.src = DEFAULT_URL;
-                    }
-                    }
-                />
+                <Link to={`${url}/film/:id`}>
+                  <img 
+                  src={poster_path} 
+                  alt={`image for ${title}`}
+                  className={`${blockName}-image`}
+                  onClick={() => { 
+                      dispatch(movieInfo(movieData))
+                    }}
+                  onError={(event) => {
+                      event.target.src = DEFAULT_URL;
+                  }
+                  }
+              />
+                </Link>
+              
                 <Button aria-controls='simple-menu' aria-haspopup='true' onClick={handleClickMenuButton} className={classes.menuButton}>
                     <MoreVertIcon />
                 </Button>

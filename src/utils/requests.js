@@ -1,6 +1,6 @@
 import { getData, editMovie, addMovie, deleteMovie } from '../store/actions/actions';
 
-const url = 'http://localhost:4000/movies';
+export const url = 'http://localhost:4000/movies';
 
 const queryString = (query) => {
     const queryResult = Object.entries(query)

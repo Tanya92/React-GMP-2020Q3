@@ -1,0 +1,47 @@
+@import './mixins.less';
+
+@blockName: page-not-found;
+
+.@{blockName} {
+    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    background-color: #232323;
+    .title {
+        
+    }
+
+    &__info {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 30vh;
+        width: 100%;
+        margin-bottom: 50px;
+        color: #fff;
+        font-family: 'Roboto';
+        font-size: 4rem;
+    }
+
+    &__error-message {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        font-size: 7rem;
+        color: #fff;
+        align-items: center;
+
+    }
+
+    &__back-button {
+        .common-button-style-mixin;
+        .with-border-button-mixin;
+        margin-top: 50px;
+        text-align: center;
+        cursor: pointer;
+
+        &:active {
+            .with-border-button-mixin;
+        }
+    }
+}
